@@ -1,0 +1,51 @@
+name: hello-world
+
+on: # specify the build to trigger the automated ci/cd
+  push:
+    branches:
+      - "main"
+
+env:
+  REGISTRY: clockbox
+
+jobs:
+  build:
+    name: Build Docker image
+    runs-on: ubuntu-latest # specify the build machine
+    steps:
+      
+      - name: Checkout  # checkout to the repository on the build machine
+        uses: actions/checkout@v3
+      
+      - name: Login to Docker Hub # login to Docker Hub using the secrets provided
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        
+      - name: Get current date # get the date of the build
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
+      
+      - name: Set up Docker Buildx  # create a build kit builder instance
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Check with Checkov
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        env: 
+          PRISMA_API_URL: https://api0.prismacloud.io
+        with:
+          # quiet: true             # Display only failed checked
+          framework: dockerfile   # scanning only for Docker
+          soft_fail: true         # Do not failed the pipeline
+          external_checks_repos: https://github.com/git-jfontanel/checkov-custom-policies.git//Docker   # Repo with my custom Docker policies
+          api-key: ${{ secrets.BC_API_KEY }}
+        
+      - name: Build and push # build the container image and push it to Docker
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.REGISTRY }}:${{ steps.date.outputs.date }}
