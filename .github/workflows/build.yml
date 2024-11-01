@@ -41,7 +41,7 @@ jobs:
           # soft_fail: true         # Do not failed the pipeline
           # external_checks_repos: https://github.com/git-jfontanel/checkov-custom-policies.git//Docker   # Repo with my custom Docker policies
           api-key: ${{ secrets.BC_API_KEY }}
-        
+          use_enforcement_rules: true
       - name: Build and push # build the container image and push it to Docker
         uses: docker/build-push-action@v4
         with:
