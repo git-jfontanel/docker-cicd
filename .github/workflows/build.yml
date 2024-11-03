@@ -44,7 +44,7 @@ jobs:
           use_enforcement_rules: true
 
       - name: Build and tag docker image
-        run: docker buuild -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.REGISTRY }}:${{ steps.date.outputs.date }}
+        run: docker buuild -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.REGISTRY }}:${{ steps.date.outputs.date }} .
 
       - name: Scan the image
         run: ./twistcli images scan --address ${{ secrets.PCC_CONSOLE_URL }} --user $${{ secrets.PCC_USER }} --password ${{ secrets.PCC_PASS }} --details $IMAGE_NAME
