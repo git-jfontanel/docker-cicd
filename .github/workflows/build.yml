@@ -47,7 +47,7 @@ jobs:
         run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.REGISTRY }}:${{ steps.date.outputs.date }} .
 
       - name: Scan the image
-        run: ./twistcli images scan --address ${{ secrets.PCC_CONSOLE_URL }} --user $${{ secrets.PCC_USER }} --password ${{ secrets.PCC_PASS }} --details ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.REGISTRY }}:${{ steps.date.outputs.date }}
+        run: ./twistcli images scan --address ${{ secrets.PCC_CONSOLE_URL }} --user $${{ secrets.PCC_USER }} --password ${{ secrets.PCC_PASS }} --details ${{ env.REGISTRY }}:${{ steps.date.outputs.date }}
 
       - name: Push docker image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.REGISTRY }}:${{ steps.date.outputs.date }}
