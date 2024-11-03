@@ -5,7 +5,7 @@ on:
 
 env:
   REGISTRY: clockbox
-  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.REGISTRY }}:${{ steps.date.outputs.date }}
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/$REGISTRY:${{ steps.date.outputs.date }}
 
 jobs:
   build:
