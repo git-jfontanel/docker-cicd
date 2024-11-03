@@ -52,6 +52,8 @@ jobs:
         # run: ./twistcli images scan --address ${{ secrets.PCC_CONSOLE_URL }} --user $${{ secrets.PCC_USER }} --password ${{ secrets.PCC_PASS }} --details ${{ env.REGISTRY }}:${{ steps.date.outputs.date }}
         id: scan
         uses: PaloAltoNetworks/prisma-cloud-scan@v1.5
+        env:
+          IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.REGISTRY }}:${{ steps.date.outputs.date }}
         with:
           pcc_console_url: ${{ secrets.PCC_CONSOLE_URL }}
           pcc_user: ${{ secrets.PCC_USER }}
