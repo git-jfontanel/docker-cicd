@@ -63,8 +63,8 @@ jobs:
           curl --user ${{ secrets.PCC_USER }}:${{ secrets.PCC_PASS }} --output ./twistcli ${{ secrets.PCC_CONSOLE_URL }}/api/v1/util/twistcli 
           chmod a+x ./twistcli
           echo scanning...
-          ./twistcli images scan --address ${{ secrets.PCC_CONSOLE_URL }} --user $${{ secrets.PCC_USER }} --password ${{ secrets.PCC_PASS }} --output-file pcc_scan_results.json --details $IMAGE_NAME
-      
+          ./twistcli images scan --address ${{ secrets.PCC_CONSOLE_URL }} --user ${{ secrets.PCC_USER }} --password ${{ secrets.PCC_PASS }} --output-file pcc_scan_results.json --details $IMAGE_NAME
+          
       - name: Push docker image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.REGISTRY }}:${{ steps.date.outputs.date }}
         
