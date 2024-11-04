@@ -25,10 +25,10 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
 
-      # - name: Download twistcli from the Prisma Cloud Compute Console
-      #   run: |
-      #     curl --user ${{ secrets.PCC_USER }}:${{ secrets.PCC_PASS }} --output ./twistcli ${{ secrets.PCC_CONSOLE_URL }}/api/v1/util/twistcli 
-      #     chmod a+x ./twistcli
+      - name: Download twistcli from the Prisma Cloud Compute Console
+        run: |
+          curl --user ${{ secrets.PCC_USER }}:${{ secrets.PCC_PASS }} --output ./twistcli ${{ secrets.PCC_CONSOLE_URL }}/api/v1/util/twistcli 
+          chmod a+x ./twistcli
 
       - name: Check with Checkov
         id: checkov
